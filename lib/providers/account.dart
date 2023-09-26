@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:appwrite/appwrite.dart';
-import 'package:appwrite/models.dart';
+import 'package:appwrite/appwrite.dart' show Client, ID;
+import 'package:appwrite/appwrite.dart' as Appwrite;
+import 'package:appwrite/models.dart' show User;
 
-class Auth extends ChangeNotifier {
-  final Account _account;
+class Account extends ChangeNotifier {
+  final Appwrite.Account _account;
 
   bool get isAuthenticated => _user != null;
 
   User? _user;
   User? get user => _user;
 
-  Auth(Client client) : _account = Account(client);
+  Account(Client client) : _account = Appwrite.Account(client);
 
   Future<void> init() async {
     try {

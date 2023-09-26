@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:appwrite/appwrite.dart';
+import 'package:provider/provider.dart';
+import 'package:appwrite/appwrite.dart' show Client;
 
-import './env.dart';
+import 'env.dart';
+import 'app.dart';
+import 'providers/account.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +15,12 @@ Future<void> main() async {
   .setEndpoint(Env.endpoint)
   .setProject(Env.project);
 
-
-  runApp(const Main());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<Account>(create: (context) => Account(client))
+      ],
+      child: const App()
+    )
+  );
 }
-
