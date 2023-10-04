@@ -7,6 +7,7 @@ import './providers/account.dart';
 import './pages/landing.dart';
 import './pages/login.dart';
 import './pages/register.dart';
+import './pages/chat.dart';
 
 String Function(BuildContext context, GoRouterState state) redirect = 
   (BuildContext context, GoRouterState state) => 
@@ -14,7 +15,7 @@ String Function(BuildContext context, GoRouterState state) redirect =
 
 final router = GoRouter(
   // redirect: redirect,
-  initialLocation: '/',
+  initialLocation: '/chat',
   routes: [
     GoRoute(
       path: '/',
@@ -27,6 +28,10 @@ final router = GoRouter(
     GoRoute(
       path: '/register',
       pageBuilder: (context, state) => const MaterialPage(child: RegisterPage()),
+    ),
+    GoRoute(
+      path: '/chat',
+      pageBuilder: (context, state) => const MaterialPage(child: ChatPage()),
     ),
   ],  
 );
