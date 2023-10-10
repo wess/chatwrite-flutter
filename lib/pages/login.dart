@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:go_router/go_router.dart';
+import 'package:appwrite/appwrite.dart' show AppwriteException;
+
+import '../providers/account.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -19,6 +24,7 @@ class LoginForm extends StatefulWidget {
 
   @override
   LoginFormState createState() => LoginFormState();
+
 }
 
 class LoginFormState extends State<LoginForm> {
@@ -72,9 +78,26 @@ class LoginFormState extends State<LoginForm> {
                 child: const Text('Login'),
                 onPressed: () {
                   if (_formKey.currentState?.validate() == true) {
-                    _formKey.currentState!.save();
-                    // TODO: Handle login logic here
-                    debugPrint('Email: $_email, Password: $_password');
+                    _formKey.currentState?.save();
+
+                    final messenger = ScaffoldMessenger.of(context);
+                    final router = GoRouter.of(context);
+                    final account = context.read<Account>();
+                    
+                    String error = '';
+
+                    try {
+                      account.authenticate(email: _email!, password: _password!);
+                      router.push('/chat');
+                    } on AppwriteException catch(e) {
+                      error = e.message ?? 'An error occurred';
+                    } catch(e) {
+                      error = 'An error occurred';
+                    }
+                    
+                    if (error.isNotEmpty) {
+                      messenger.showSnackBar(SnackBar(content: Text(error)));
+                    }
                   }
                 },
               ),

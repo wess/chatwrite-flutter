@@ -11,11 +11,14 @@ import './pages/chat.dart';
 
 String Function(BuildContext context, GoRouterState state) redirect = 
   (BuildContext context, GoRouterState state) => 
-    context.read<Account>().isAuthenticated ? '/home' : '/auth';
+    context.read<Account>().user != null && state.matchedLocation == '/chat'
+    ? '/chat' 
+    : state.matchedLocation;
+
 
 final router = GoRouter(
-  // redirect: redirect,
-  initialLocation: '/chat',
+  redirect: redirect,
+  initialLocation: '/',
   routes: [
     GoRoute(
       path: '/',
