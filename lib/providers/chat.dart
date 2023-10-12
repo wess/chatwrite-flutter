@@ -67,13 +67,10 @@ class Chat extends ChangeNotifier {
         );
       }).toList();
 
-      final count = _messages.length;
-
       _messages.addAll(incoming);
 
-      if(count >= _messages.length) {
-        notifyListeners();
-      }
+      notifyListeners();
+
     } catch(e) {
       debugPrint(e.toString());
       rethrow;
